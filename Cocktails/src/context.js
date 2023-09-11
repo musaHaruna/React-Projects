@@ -6,7 +6,7 @@ const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
-  const [searchTerm, setSeachTerm] = useState('a')
+  const [searchTerm, setSearchTerm] = useState('a')
   const [cocktails, setCocktails] = useState([])
 
   const fetchDrinks = useCallback(async () => {
@@ -20,6 +20,7 @@ const AppProvider = ({ children }) => {
         const newCocktails = drinks.map((item) => {
           const { idDrink, strDrink, strDrinkThumb, strAlcoholic, strGlass } =
             item
+
           return {
             id: idDrink,
             name: strDrink,
@@ -38,20 +39,18 @@ const AppProvider = ({ children }) => {
       setLoading(false)
     }
   }, [searchTerm])
-
   useEffect(() => {
     fetchDrinks()
   }, [searchTerm, fetchDrinks])
-
   return (
     <AppContext.Provider
-      value={{ loading, cocktails, searchTerm, setSeachTerm }}
+      value={{ loading, cocktails, searchTerm, setSearchTerm }}
     >
       {children}
     </AppContext.Provider>
   )
 }
-
+// make sure use
 export const useGlobalContext = () => {
   return useContext(AppContext)
 }
